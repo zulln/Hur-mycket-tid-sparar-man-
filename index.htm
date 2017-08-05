@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<title>
+			Öka hastighen - spara tid
+		</title>
+
+		<style>
+			input {
+				font-size: 40px;
+				width: 130px;
+			}
+
+			#holder {
+				font-size: 50px;
+				text-align: center;
+				margin: auto;
+				width: 70%;
+				line-height: 1.7;
+			}
+
+			p {
+				font-size: 50px;
+			}
+			
+			h1 {
+				margin: 50px;
+				font-size: 70px;
+			}
+		</style>
+
+		<script>
+			window.onhashchange = function() {
+				loaded();
+			}
+			
+			function changed() {
+				real = document.getElementById("real").value;
+				intended = document.getElementById("intended").value;
+				distance = document.getElementById("distance").value;
+
+				d = distance * 1000;
+				i = intended / 3.6;
+				r = real / 3.6;
+
+
+				res = d/i - d/r;
+				res = res / 60;
+
+				document.getElementById("res").value = res;
+
+				location.hash = real + ":" + intended + ":" + distance;
+			}
+
+			function loaded(){
+				if (location.hash) {
+					hash = location.hash.substring(1);
+					hash = hash.split(":");
+
+					real = document.getElementById("real");
+					intended = document.getElementById("intended");
+					distance = document.getElementById("distance");
+
+					real.value = hash[0];
+					intended.value = hash[1];
+					distance.value = hash[2];
+				}
+
+				changed();
+			}
+		</script>
+
+	</head>
+
+	<body onload="loaded();">
+
+		<div id="holder">
+			<h1>Hur mycket tid sparar man?</h1>
+			<p>Om du åker <input id="real" type="number" value="148">km/h istället för <input id="intended" type="number=" value="120"> km/h i <input id="distance" type="number" value="30"> km så sparar man <input id="res" type="number" disabled value=""> minuter.</p>
+		</div>
+
+		<script>
+			for (i = 0; i < 4; i++) {
+				document.getElementsByTagName("input")[i].oninput = function() {
+					changed(); // run changed on any input
+				}
+			}
+		</script>
+
+	</body>
+</html>
